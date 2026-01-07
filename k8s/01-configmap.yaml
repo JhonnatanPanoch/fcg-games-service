@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fcg-games-service-config
+  labels:
+    app: fcg-games-service
+data:
+  ASPNETCORE_ENVIRONMENT: "Production"
+  Services__GamePurchaseApiUrl: "http://fcg-purchase-service"
+  JwtSettings__Issuer: "FiapCloudGames"
+  JwtSettings__Audience: "FiapCloudGamesUsers"
+  JwtSettings__ExpirationMinutes: "60"
+  Elasticsearch__Url: "https://search-fcg-jogos-qw3vjsydwqcab22nwujdwbjqti.aos.sa-east-1.on.aws"
