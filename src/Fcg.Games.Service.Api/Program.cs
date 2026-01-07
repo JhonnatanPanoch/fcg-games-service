@@ -65,8 +65,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() 
     {
-        Title = "Servi�o de Cat�logo de Jogos",
-        Description= "Este servi�o � a fonte da verdade para tudo relacionado a jogos e promo��es.",
+        Title = "Serviço de Catálogo de Jogos",
+        Description= "Este serviço é a fonte da verdade para tudo relacionado a jogos e promoções.",
         Version = "v1"
     });
 
