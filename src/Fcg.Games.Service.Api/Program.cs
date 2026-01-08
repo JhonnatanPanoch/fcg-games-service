@@ -14,6 +14,7 @@ using Fcg.Games.Service.Infra.Elastic.Configurations;
 using Fcg.Games.Service.Infra.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
@@ -103,6 +104,12 @@ builder.Services.AddSwaggerGen(c =>
 #endregion
 
 #region NewRelic
+builder.Services.Configure<NewRelicSettings>(builder.Configuration.GetSection("NewRelicSettings"));
+
+var newRelicSettings = builder.Configuration.GetSection("NewRelicSettings").Get<NewRelicSettings>()
+    ?? throw new InvalidOperationException("NewRelicSettings não foi configurado corretamente.");
+var newRelicOptions = Options.Create(newRelicSettings);
+
 Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.FromLogContext()
@@ -114,7 +121,7 @@ Log.Logger = new LoggerConfiguration()
         requestUri: "https://log-api.newrelic.com/log/v1",
         textFormatter: new NewRelicFormatter(),
         batchFormatter: new ArrayBatchFormatter(),
-        httpClient: new NewRelicHttpClient())
+        httpClient: new NewRelicHttpClient(newRelicOptions))
     .CreateLogger();
 
 builder.Host.UseSerilog();
